@@ -88,10 +88,10 @@
 		CCFB62162D706177007E24D9 = {
 			isa = PBXGroup;
 			children = (
-				CCFB62212D706177007E24D9 /* YallBeTipping */,
 				CCFB62382D706179007E24D9 /* YallBeTippingTests */,
 				CCFB62422D706179007E24D9 /* YallBeTippingUITests */,
 				CCFB62202D706177007E24D9 /* Products */,
+				CCFB62212D706177007E24D9 /* YallBeTipping */,
 			);
 			sourceTree = "<group>";
 		};
