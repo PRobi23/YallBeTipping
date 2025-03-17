@@ -8,13 +8,14 @@
 import UIKit
 
 class TipViewController: UIViewController {
-
+    static let id = "TipViewController"
+    
     lazy var barButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(didTapBarButton))
         return button
     }()
     
-   
+    
     @IBOutlet weak var largeTipButton: UIButton!
     @IBOutlet weak var mediumTipButton: UIButton!
     @IBOutlet weak var smallTipButton: UIButton!
@@ -33,7 +34,7 @@ class TipViewController: UIViewController {
     let items: [MenuItem]
     
     init(coder: NSCoder, items: [MenuItem]) {
-        self.items = items
+        self.items = item
         super.init(coder: coder)!
     }
     
@@ -64,8 +65,11 @@ class TipViewController: UIViewController {
             name: "Receipt",
             bundle: nil
         )
-        let vc = sb.instantiateViewController(identifier: "ReceiptViewController")
-        navigationController?.pushViewController(vc, animated: true)
+        let vc = sb.instantiateViewController(identifier: "ReceiptViewController") { [unowned self] coder in
+            let receiptVC = ReceiptViewController(coder: coder, items: items, tip: tipAmount)
+            return receiptVC
+        }
+        pushVC(vc)
     }
     
     func deselectButtons(){

@@ -9,8 +9,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    var data: [MenuItem] = []
-    
+    private var data: [MenuItem] = []
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
@@ -18,32 +18,32 @@ class HomeViewController: UIViewController {
     }
     
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
-    func fetchData() {
+    private func fetchData() {
         data = Api.shared.fetchData()
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
     }
     
-    @IBAction func didTapCartButton(_ sender: UIBarButtonItem) {
+    @IBAction private func didTapCartButton(_ sender: UIBarButtonItem) {
         let sb = UIStoryboard(
-            name: "ConfirmViewController",
+            name: ConfirmViewController.id,
                               bundle: nil)
         let items: [MenuItem] = getMenuItems()
-        let vc = sb.instantiateViewController(identifier: "ConfirmViewController") { coder in
+        let vc = sb.instantiateViewController(identifier: ConfirmViewController.id) { coder in
             let confirmVC = ConfirmViewController(coder: coder, items: items)
             return confirmVC
             
         }
         
-        navigationController?.pushViewController(vc, animated: true)
+        pushVC(vc)
     }
     
-    func getMenuItems() -> [MenuItem] {
+    private func getMenuItems() -> [MenuItem] {
         var items: [MenuItem] = []
         for item in data {
             if item.count > 0 {
@@ -60,7 +60,7 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableCell",
+        let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.id,
                                                  for: indexPath) as! HomeTableViewCell
         let i = indexPath.row
         cell.configure(item: data[i], indexPath: indexPath)

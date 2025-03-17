@@ -13,18 +13,19 @@ protocol ConfirmCellDelegate : AnyObject {
 }
 
 class ConfirmCell: UITableViewCell {
+    static let id = "ConfirmCell"
     weak var delegate: ConfirmCellDelegate?
 
-    var indexPath: IndexPath?
+    private var indexPath: IndexPath?
 
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
     
-    @IBOutlet weak var img: UIImageView!
+    @IBOutlet private weak var img: UIImageView!
     
-    @IBOutlet weak var plusButton: UIButton!
-    @IBOutlet weak var minusButton: UIButton!
-    @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet private weak var plusButton: UIButton!
+    @IBOutlet private weak var minusButton: UIButton!
+    @IBOutlet private weak var countLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,7 +46,7 @@ class ConfirmCell: UITableViewCell {
     func configure(item: MenuItem, indexPath: IndexPath) {
         self.indexPath = indexPath
         nameLabel.text = item.name
-        priceLabel.text = "$\(item.price)"
+        priceLabel.text = item.price.toCurrency()
         img.image = UIImage(named: item.img)
         countLabel.text = "\(item.count)"
     }

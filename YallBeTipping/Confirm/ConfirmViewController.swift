@@ -9,12 +9,14 @@ import UIKit
 
 class ConfirmViewController: UIViewController {
 
-    lazy var barButton: UIBarButtonItem = {
+    static let id = "ConfirmViewController"
+    
+    private lazy var barButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(didTapBarButton))
         return button
     }()
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     var items: [MenuItem]
     
     init?(coder: NSCoder, items: [MenuItem]) {
@@ -25,8 +27,8 @@ class ConfirmViewController: UIViewController {
     func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UINib(nibName: "ConfirmCell", bundle: nil),
-                           forCellReuseIdentifier: "ConfirmCell")
+        tableView.register(UINib(nibName: ConfirmCell.id, bundle: nil),
+                           forCellReuseIdentifier: ConfirmCell.id)
     }
     
     required init?(coder: NSCoder) {
@@ -40,13 +42,13 @@ class ConfirmViewController: UIViewController {
         navigationItem.rightBarButtonItem = barButton
     }
                                      
-    @objc func didTapBarButton(){
+    @objc private func didTapBarButton(){
         let sb = UIStoryboard(name: "Tip", bundle: nil)
-        let vc = sb.instantiateViewController(identifier: "TipViewController") { [unowned self] coder in
+        let vc = sb.instantiateViewController(identifier: TipViewController.id) { [unowned self] coder in
             let tipVc = TipViewController(coder: coder, items: items)
             return tipVc
         }
-        navigationController?.pushViewController(vc, animated: true)
+        pushVC(vc)
     }
 }
 
@@ -56,7 +58,7 @@ extension ConfirmViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ConfirmCell",
+        let cell = tableView.dequeueReusableCell(withIdentifier: ConfirmCell.id,
                                                  for: indexPath) as! ConfirmCell
         let i = indexPath.row
         cell.configure(item: items[i], indexPath: indexPath)

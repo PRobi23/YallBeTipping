@@ -13,18 +13,20 @@ protocol HomeTableViewCellDelegate: AnyObject {
 }
 
 class HomeTableViewCell: UITableViewCell {
+    
+    static let id = "HomeTableViewCell"
 
     weak var delegate: HomeTableViewCellDelegate?
-    var indexPath: IndexPath?
+    private var indexPath: IndexPath?
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var img: UIImageView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var img: UIImageView!
     
-    @IBOutlet weak var plusButton: UIButton!
-    @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var minusButton: UIButton!
-    
+    @IBOutlet private weak var plusButton: UIButton!
+    @IBOutlet private weak var countLabel: UILabel!
+    @IBOutlet private weak var minusButton: UIButton!
+
     @IBOutlet weak var orderCountStackView: UIStackView!
     
     override func awakeFromNib() {
@@ -41,7 +43,7 @@ class HomeTableViewCell: UITableViewCell {
     func configure(item: MenuItem, indexPath: IndexPath) {
         self.indexPath = indexPath
         nameLabel.text = item.name
-        priceLabel.text = "$\(item.price)"
+        priceLabel.text = item.price.toCurrency()
         img.image = UIImage(named: item.img)
         countLabel.text = "\(item.count)"
         if item.count > 0 {
@@ -51,13 +53,13 @@ class HomeTableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func didTapPlusButton() {
+    @IBAction private func didTapPlusButton() {
         guard let indexPath else { return }
         delegate?.didAdd(at: indexPath )
     }
     
     
-    @IBAction func didTapMinusButton() {
+    @IBAction private func didTapMinusButton() {
         guard let indexPath else { return }
         delegate?.didMinus(at: indexPath)
     }
